@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fondo_victoria"
+        android:layout_margin="40dp"
+        android:weightSum="100"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/textView_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="THE WINNER IS... PLAYER X !!!"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="#D4000000"
+            android:textSize="30sp"
+            android:textStyle="bold|italic"
+            android:typeface="sans"
+            android:layout_margin="10dp"/>
+
+        <EditText
+            android:id="@+id/editText_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorAccent"
+            android:backgroundTintMode="add"
+            android:hint="Nombre"
+            android:textColor="#D4000000"
+            android:textColorHint="#72000000"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/editText_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorAccent"
+            android:backgroundTintMode="add"
+            android:hint="DNI"
+            android:textColor="#A9000000"
+            android:textColorHint="#72000000"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="100"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttons_tic_tac_toe"
+                android:layout_margin="10dp"
+                android:text="SAVE" />
+
+            <Button
+                android:id="@+id/button_playAgain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttons_tic_tac_toe"
+                android:layout_margin="10dp"
+                android:text="SAVE" />
+
+            <Button
+                android:id="@+id/button_exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttons_tic_tac_toe"
+                android:layout_margin="10dp"
+                android:text="SAVE" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+

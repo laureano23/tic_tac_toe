@@ -1,11 +1,15 @@
 package com.lugopa.tic_tac_toe;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,39 +25,39 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
     private TextView tv_jugador1;
     private TextView tv_jugador2;
 
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tic_tac_toe);
 
-        inicializar();
-
-        Button btn_reset = findViewById(R.id.Button_reset);
-        btn_reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // FALTA DETALLAR
-            }
-        });
-
-    }
-
-    private void inicializar() {
         tv_jugador1 = findViewById(R.id.textView_P1);
         tv_jugador2 = findViewById(R.id.textView_P2);
 
         for (int i = 0; i < 3; i++) {
             for (int h = 0; h < 3; h++) {
-                String botonID = "btn_" + i + h;
-                int resID = getResources().getIdentifier(botonID, "id", getPackageName());
+                String buttonID = "button_" + i + h;
+                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
                 botones[i][h] = findViewById(resID);
                 botones[i][h].setOnClickListener(this);
             }
         }
+
+        Button btn_reset = findViewById(R.id.button_reset);
+        btn_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetearJuego();
+            }
+        });
+
     }
 
     @Override
-    public void onClick(View v) { // Permite adminisstrar el click de c/u de los botones inicializados
+    public void onClick(View v) { // Permite administrar el click de c/u de los botones inicializados
         if (!((Button) v).getText().toString().equals("")) { // revisa si tiene un texto vacio el boton
             return;
         }
@@ -124,14 +128,64 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
     }
 
     private void ganador_jugador_1(){
-
+        puntosJugador1++;
+        String[][] msg = new String[][]{{"P","2","-"},{"H","A","S"},{"W","O","N"}};
+        Toast.makeText(this, "Player 1 wins!", Toast.LENGTH_SHORT).show();
+        actualizarTextoPuntuacion();
+        resetearTablero();
     }
 
     private void ganador_jugador_2(){
-
+        puntosJugador2++;
+        String[][] msg = new String[][]{{"P","2","-"},{"H","A","S"},{"W","O","N"}};
+        Toast.makeText(this, "Player 2 wins!", Toast.LENGTH_SHORT).show();
+        actualizarTextoPuntuacion();
+        resetearTablero();
     }
 
     private void empate(){
-
+        Toast.makeText(this, "It is a Tie!", Toast.LENGTH_SHORT).show();
+        resetearTablero();
     }
+
+    private void actualizarTextoPuntuacion(){
+        tv_jugador1.setText("Player 1: " + puntosJugador1);
+        tv_jugador2.setText("Player 2: " + puntosJugador2);
+    }
+
+    private void resetearTablero() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                botones[i][j].setText("");
+            }
+            contadorDeRondas = 0;
+            turnoJugador1 = true;
+        }
+    }
+
+    private void resetearJuego() {
+        puntosJugador1 = 0;
+        puntosJugador2 = 0;
+        actualizarTextoPuntuacion();
+        resetearTablero();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) { // invocado cuando se rota el dispositivo
+        super.onSaveInstanceState(outState); // almacenamos cada uno de los valores en un estado externo
+        outState.putInt("contadorDeRondas", contadorDeRondas);
+        outState.putInt("puntosJugador1", puntosJugador1);
+        outState.putInt("puntosJugador2", puntosJugador2);
+        outState.putBoolean("turnoJugador1", turnoJugador1);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState); // reestablecemos cada uno de los valores salvados en el metodo anterior
+        contadorDeRondas = savedInstanceState.getInt("contadorDeRondas");
+        puntosJugador1 = savedInstanceState.getInt("puntosJugador1");
+        puntosJugador2 = savedInstanceState.getInt("puntosJugador2");
+        turnoJugador1 = savedInstanceState.getBoolean("turnoJugador1");
+    }
+
 }

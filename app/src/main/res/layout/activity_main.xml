@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity"
     android:weightSum="100"
-    android:background="@mipmap/fondo_colores_hexagonos">
+    android:background="@drawable/fondo_colores">
 
     <ImageView
         android:id="@+id/imageView"
