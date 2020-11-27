@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TablaJugadoresActivity"
+    android:weightSum="100">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="#FAFAFA"
+        android:layout_margin="10dp"
+        android:text="DATOS DEL JUGADOR"
+        android:textAlignment="center"
+        android:textColor="#D4000000"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/editext_nombre_jugador"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="#FAFAFA"
+        android:hint="NOMBRE DEL JUGADOR"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:textColor="#D4000000"
+        android:textColorHint="#73000000"
+        android:textSize="24sp"
+        android:inputType="none"/>
+
+    <EditText
+        android:id="@+id/editext_dni_jugador"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="#FAFAFA"
+        android:hint="DNI DEL JUGADOR"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:textColor="#D4000000"
+        android:textColorHint="#73000000"
+        android:textSize="24sp"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/editext_cantidad_victorias"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="#FAFAFA"
+        android:hint="VICTORIAS DEL JUGADOR"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:textColor="#D4000000"
+        android:textColorHint="#73000000"
+        android:textSize="24sp"
+        android:inputType="none"/>
+
+    <Button
+        android:id="@+id/button_get_data_db"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:text="GET DATA FROM DB"
+        android:background="@drawable/buttons_tic_tac_toe"
+        android:layout_margin="10dp"
+        android:textSize="24sp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

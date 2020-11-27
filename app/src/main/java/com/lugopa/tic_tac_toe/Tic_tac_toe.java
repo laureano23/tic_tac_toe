@@ -70,7 +70,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
                 if(puntosJugador1 != puntosJugador2){
                     mostrarPopUpVictoria();
                 } else {
-                    Toast.makeText(getApplicationContext(), "No winner yet! Keep playing!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No winner yet, keep playing!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
