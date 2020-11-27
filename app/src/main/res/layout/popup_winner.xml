@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="355dp"
+        android:layout_height="459dp"
         android:background="@drawable/fondo_victoria"
-        android:layout_margin="40dp"
-        android:weightSum="100"
         android:orientation="vertical"
-        android:layout_centerInParent="true">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:weightSum="100">
 
         <TextView
-            android:id="@+id/textView_1"
+            android:id="@+id/textview_1_pop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:text="THE WINNER IS... PLAYER X !!!"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="#D4000000"
             android:textSize="30sp"
             android:textStyle="bold|italic"
-            android:typeface="sans"
-            android:layout_margin="10dp"/>
+            android:typeface="sans" />
 
         <EditText
-            android:id="@+id/editText_1"
+            android:id="@+id/editext_1_pop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:maxLength="12"
             android:backgroundTint="@color/colorAccent"
             android:backgroundTintMode="add"
             android:hint="Nombre"
@@ -39,9 +43,11 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/editText_2"
+            android:id="@+id/editext_2_pop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="8"
             android:layout_margin="5dp"
             android:backgroundTint="@color/colorAccent"
             android:backgroundTintMode="add"
@@ -53,38 +59,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="100"
+            android:layout_margin="5dp"
             android:orientation="vertical"
-            android:layout_margin="5dp">
+            android:weightSum="100">
 
             <Button
-                android:id="@+id/button_save"
+                android:id="@+id/button_save_pop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/buttons_tic_tac_toe"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:background="@drawable/buttons_tic_tac_toe"
                 android:text="SAVE" />
 
             <Button
-                android:id="@+id/button_playAgain"
+                android:id="@+id/button_play_pop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/buttons_tic_tac_toe"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="SAVE" />
+                android:background="@drawable/buttons_tic_tac_toe"
+                android:text="play again" />
 
             <Button
-                android:id="@+id/button_exit"
+                android:id="@+id/button_exit_pop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/buttons_tic_tac_toe"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="SAVE" />
+                android:background="@drawable/buttons_tic_tac_toe"
+                android:text="EXIT" />
         </LinearLayout>
+
+
 
     </LinearLayout>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

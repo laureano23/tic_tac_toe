@@ -3,6 +3,7 @@ package com.lugopa.tic_tac_toe;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.nfc.FormatException;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,8 +28,14 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
     private TextView tv_jugador1;
     private TextView tv_jugador2;
 
+    private ValidadorDeDatos validadorDeDatos = new ValidadorDeDatos();
+
+    // ELEMENTOS DEL POPUP
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
+    private EditText et_nombre_pop, et_dni_pop;
+    private Button btn_save_pop, btn_playAgain_pop, btn_exit_pop;
+    private TextView tv_tituloVictoria_pop;
 
 
     @Override
@@ -51,6 +60,18 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 resetearJuego();
+            }
+        });
+
+        Button btn_finish = findViewById(R.id.button_finish);
+        btn_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(puntosJugador1 != puntosJugador2){
+                    mostrarPopUpVictoria();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No winner yet! Keep playing!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -129,7 +150,6 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
 
     private void ganador_jugador_1(){
         puntosJugador1++;
-        String[][] msg = new String[][]{{"P","2","-"},{"H","A","S"},{"W","O","N"}};
         Toast.makeText(this, "Player 1 wins!", Toast.LENGTH_SHORT).show();
         actualizarTextoPuntuacion();
         resetearTablero();
@@ -137,7 +157,6 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
 
     private void ganador_jugador_2(){
         puntosJugador2++;
-        String[][] msg = new String[][]{{"P","2","-"},{"H","A","S"},{"W","O","N"}};
         Toast.makeText(this, "Player 2 wins!", Toast.LENGTH_SHORT).show();
         actualizarTextoPuntuacion();
         resetearTablero();
@@ -186,6 +205,75 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         puntosJugador1 = savedInstanceState.getInt("puntosJugador1");
         puntosJugador2 = savedInstanceState.getInt("puntosJugador2");
         turnoJugador1 = savedInstanceState.getBoolean("turnoJugador1");
+    }
+
+    //=============================================
+    // FUNCIONES DEL POP_UP
+    //=============================================
+
+    private void mostrarPopUpVictoria(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View victoriaPopUpView = getLayoutInflater().inflate(R.layout.popup_winner, null);
+        tv_tituloVictoria_pop = victoriaPopUpView.findViewById(R.id.textview_1_pop);
+        et_nombre_pop = victoriaPopUpView.findViewById(R.id.editext_1_pop);
+        et_dni_pop = victoriaPopUpView.findViewById(R.id.editext_2_pop);
+        btn_save_pop = victoriaPopUpView.findViewById(R.id.button_save_pop);
+        btn_playAgain_pop= victoriaPopUpView.findViewById(R.id.button_play_pop);
+        btn_exit_pop= victoriaPopUpView.findViewById(R.id.button_exit_pop);
+
+        if(puntosJugador1 > puntosJugador2){
+            tv_tituloVictoria_pop.setText("THE WINNER IS... PLAYER 1 !!!");
+        } else {
+            tv_tituloVictoria_pop.setText("THE WINNER IS... PLAYER 2 !!!");
+        }
+
+        dialogBuilder.setView(victoriaPopUpView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        btn_save_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(et_nombre_pop.getText().toString().isEmpty() || et_dni_pop.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(),"incomplete entered data!", Toast.LENGTH_SHORT).show();
+                } else {
+                    int dni = Integer.parseInt(et_dni_pop.getText().toString());
+                    if (!validadorDeDatos.validar_dni(dni)) {
+                        Toast.makeText(getApplicationContext(), "Invalid DNI, Try again!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        String nombre = et_nombre_pop.getText().toString();
+                        int cantVictorias = Math.max(puntosJugador1, puntosJugador2);
+                        DatabaseManager databaseManager = new DatabaseManager();
+                        databaseManager.guardarEnBD(dni, nombre, cantVictorias);
+                        btn_save_pop.setClickable(false);
+                        btn_save_pop.setVisibility(View.INVISIBLE);
+                        resetearJuego();
+                    }
+                }
+            }
+        });
+
+        btn_playAgain_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                resetearJuego();
+            }
+        });
+
+        btn_exit_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
 }
