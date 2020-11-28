@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Tic_Tac_toe</string>
+
+    <string-array name="names">
+        <item>DNI</item>
+        <item>NOMBRE</item>
+        <item>VICTORIAS</item>
+    </string-array>
+
 </resources>

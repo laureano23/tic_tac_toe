@@ -5,6 +5,10 @@ public class Jugador {
     private String nombre;
     private int victorias;
 
+    public Jugador(){
+
+    }
+
     public Jugador(int dni, String nombre, int victorias) {
         this.dni = dni;
         this.nombre = nombre;
