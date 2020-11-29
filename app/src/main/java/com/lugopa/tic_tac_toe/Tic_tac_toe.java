@@ -1,8 +1,10 @@
 package com.lugopa.tic_tac_toe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DownloadManager;
 import android.nfc.FormatException;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -12,7 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+
+import javax.security.auth.callback.Callback;
 
 public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListener {
 
@@ -269,11 +279,34 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+
     @Override
     public void onBackPressed(){
         super.onBackPressed();
         finish();
         //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
+   /* private void agregar_jugador_BD(Jugador player){
+        DatabaseManager mDatabase = new DatabaseManager();
+        mDatabase.checkUserExist(player.getDni(), new BasicE)
+        Query queryUserByDni = FirebaseDatabase.getInstance().getReference("Jugadores")
+                .orderByChild("dni").equalTo(player.getDni()).limitToFirst(1);
+        queryUserByDni.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    // ver ultimo video para rreutilizar BD
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }*/
+
+
 
 }

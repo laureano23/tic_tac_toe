@@ -23,7 +23,7 @@ public class DatabaseManager {
     private ArrayList<Jugador> lista_jugadores = new ArrayList<>();
 
     public DatabaseManager() {
-        get_tablaJugadores_BD();
+        //get_tablaJugadores_BD();
     }
 
     public List<Jugador> getLista_jugadores() {
@@ -38,7 +38,7 @@ public class DatabaseManager {
         mDataBase.child("Jugadores").push().setValue(puntajeBD);
     }
 
-   private void get_tablaJugadores_BD(){
+   /*private void get_tablaJugadores_BD(){
         DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference nodoJugadores = mDatabaseReference.child("Jugadores");
         nodoJugadores.addValueEventListener(new ValueEventListener() {
@@ -61,9 +61,9 @@ public class DatabaseManager {
                 //progressBar.setVisibility(View.INVISIBLE);
             }
         });
-    }
+    }*/
 
-    public Jugador get_jugador_byDni(int dni) {
+    /*public Jugador get_jugador_byDni(int dni) {
         // buscar en la tabla obtenida en el constructor el jugador con el DNI correspondiente.
         Jugador jugador_buscado = null;
         for(Jugador player : lista_jugadores){
@@ -80,7 +80,7 @@ public class DatabaseManager {
         dbJugadores = FirebaseDatabase.getInstance().getReference();
         //dbJugadores.addListenerForSingleValueEvent(valueEventListener);
         return lista_jugadores;
-    }
+    }*/
 
 
     /*ValueEventListener valueEventListener = new ValueEventListener() {
