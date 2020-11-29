@@ -254,7 +254,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
                         String nombre = et_nombre_pop.getText().toString();
                         int cantVictorias = Math.max(puntosJugador1, puntosJugador2);
                         DatabaseManager databaseManager = new DatabaseManager();
-                        databaseManager.guardarEnBD(dni, nombre, cantVictorias);
+                        databaseManager.guardarJugador_BD(dni, nombre, cantVictorias);
                         btn_save_pop.setClickable(false);
                         btn_save_pop.setVisibility(View.INVISIBLE);
                         resetearJuego();

@@ -13,77 +13,56 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
 public class DatabaseManager {
 
-    DatabaseReference dbJugadores;
     private ArrayList<Jugador> lista_jugadores = new ArrayList<>();
 
     public DatabaseManager() {
         //get_tablaJugadores_BD();
     }
 
-    public List<Jugador> getLista_jugadores() {
-        return lista_jugadores;
-    }
 
-    // deberia ser private
-    public void guardarEnBD(int doc, String nom, int cant) {
-        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
-        //Map<String, Puntaje> users = new HashMap<>();
-        Jugador puntajeBD = new Jugador(doc, nom, cant);
-        mDataBase.child("Jugadores").push().setValue(puntajeBD);
-    }
-
-   /*private void get_tablaJugadores_BD(){
-        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference nodoJugadores = mDatabaseReference.child("Jugadores");
-        nodoJugadores.addValueEventListener(new ValueEventListener() {
+    public void guardarJugador_BD(final int dni, final String nom, final int cant ){
+        final DatabaseReference dbJugadores = FirebaseDatabase.getInstance().getReference("Jugadores");
+        Query query =dbJugadores.orderByChild("dni").equalTo(dni);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 lista_jugadores.clear();
-                if (dataSnapshot.exists()) {
-                    // OBTENEMOS LOS DATOS DEL PUNTAJE DE LA BASE DE DATOS
-                    lista_jugadores.clear(); // limpio la lista antes de volver a llenarla
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
                         Jugador player = ds.getValue(Jugador.class);
                         lista_jugadores.add(player);
                     }
+                    Jugador jugadorGuardado = lista_jugadores.get(0);
+                    int cantVictorias = jugadorGuardado.getVictorias();
+                    cantVictorias = cantVictorias + cant;
+                    jugadorGuardado.setVictorias(cantVictorias);
+                    String key = jugadorGuardado.getKey();
+                    dbJugadores.child(key).child("victorias").setValue(cantVictorias);
+                } else {
+                    String key = dbJugadores.push().getKey();
+                    Jugador jugadorNuevo = new Jugador(dni, nom, cant,key);
+                    dbJugadores.child(key).setValue(jugadorNuevo);
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("ERROR REC. FIREBASE ", "ERROR - No se pudieron recuperar los datos de Firebase");
-                //progressBar.setVisibility(View.INVISIBLE);
             }
         });
-    }*/
-
-    /*public Jugador get_jugador_byDni(int dni) {
-        // buscar en la tabla obtenida en el constructor el jugador con el DNI correspondiente.
-        Jugador jugador_buscado = null;
-        for(Jugador player : lista_jugadores){
-            if (player.getDni() == dni){
-                jugador_buscado = player;
-                break;
-            }
-        }
-        return jugador_buscado;
     }
 
-    public List<Jugador> get_tablaJugadores(){
-        // buscar todos los datos de la BD
-        dbJugadores = FirebaseDatabase.getInstance().getReference();
-        //dbJugadores.addListenerForSingleValueEvent(valueEventListener);
-        return lista_jugadores;
-    }*/
 
-
-    /*ValueEventListener valueEventListener = new ValueEventListener() {
+    /*
+    ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange( DataSnapshot dataSnapshot) {
             lista_jugadores.clear(); // limpio la lista antes de volver a llenarla
@@ -102,6 +81,7 @@ public class DatabaseManager {
             Log.d("ERROR REC. FIREBASE ", "ERROR - No se pudieron recuperar los datos de Firebase");
             //progressBar.setVisibility(View.INVISIBLE);
         }
-    };*/
+    };
+     */
 
 }

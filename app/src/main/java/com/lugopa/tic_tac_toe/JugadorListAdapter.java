@@ -35,9 +35,10 @@ public class JugadorListAdapter extends ArrayAdapter<Jugador> {
         String nombre = getItem(position).getNombre();
         int dni = getItem(position).getDni();
         int victorias = getItem(position).getVictorias();
+        String key = getItem(position).getKey();
 
         // Creamos el objeto Jugador
-        Jugador jug = new Jugador(dni, nombre, victorias);
+        Jugador jug = new Jugador(dni, nombre, victorias,key);
 
         //creamos la vista
         LayoutInflater inflater = LayoutInflater.from(mContext);
