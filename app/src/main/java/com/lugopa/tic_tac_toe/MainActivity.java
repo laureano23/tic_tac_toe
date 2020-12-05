@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         btn_single.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // abre activity del tic tac toe
-                Intent intent = new Intent(getApplicationContext(), Tic_tac_toe.class);
+            // abre activity del tic tac toe
+                Intent intent = new Intent(getApplicationContext(), Tic_tac_toe_single.class);
                 //intent.putExtra( lo que queramos pasar) // para pasar cosas a la activity
                 startActivity(intent);
                 //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -32,7 +32,11 @@ public class MainActivity extends AppCompatActivity {
         btn_multi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // abre activity del tic tac toe
+                Intent intent = new Intent(getApplicationContext(), Tic_tac_toe.class);
+                //intent.putExtra( lo que queramos pasar) // para pasar cosas a la activity
+                startActivity(intent);
+                //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
