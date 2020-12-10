@@ -6,7 +6,7 @@ public class ValidadorDeDatos {
     }
 
     public boolean validar_dni(int dni) {
-        return (dni >= 10000000 && dni < 99999999);
+        return (dni >= 10000000 && dni <= 99999999);
     }
 
 }

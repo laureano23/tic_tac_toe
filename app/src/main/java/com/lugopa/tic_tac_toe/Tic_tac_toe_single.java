@@ -58,6 +58,13 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
     String[] primeraDiagonal = new String [6];
     String[] segundaDiagonal = new String [6];
 
+    // VARIABLES PARA CONTROL DEL POP-UP
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private TextView tv_victoria_pop;
+    private Button btn_playAgain_pop, btn_exit_pop;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -330,7 +337,7 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
         puntosJugador1++;
         Toast.makeText(this, "You Win!", Toast.LENGTH_SHORT).show();
         actualizarTextoPuntuacion();
-        //resetearTablero();
+        resetearTablero();
         banderaPrimerJugada = true;
         jugadaRealizada = false;
     }
@@ -339,14 +346,14 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
         puntosComputer++;
         Toast.makeText(this, "Computer Wins!", Toast.LENGTH_SHORT).show();
         actualizarTextoPuntuacion();
-        //resetearTablero();
+        resetearTablero();
         banderaPrimerJugada = true;
         jugadaRealizada = false;
     }
 
     private void empate(){
         Toast.makeText(this, "It is a Tie!", Toast.LENGTH_SHORT).show();
-        //resetearTablero();
+        resetearTablero();
     }
 
     private boolean hayGanador() {
@@ -461,12 +468,17 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
 
         contadorDeRondas++;
 
-        if (hayGanador()) { // si hay un ganador
+        if (hayGanador()) { // si hay alguien hizo tateti
             if(simbolo_ganador.equals("X")){
                 ganador_you();
             }
             else{
                 ganador_computer();
+            }
+            if(puntosJugador1 == 3){
+                mostrarPopUpVictoria();
+            }else if(puntosComputer == 3){
+                mostrarPopUpVictoria();
             }
         }
         else{
@@ -1369,5 +1381,38 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
         banderaPrimerJugada = false;
         ultimaPosicionX=azarX;
         ultimaPosicionY=azarY;
+    }
+
+    private void mostrarPopUpVictoria() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View victoriaPopUpView = getLayoutInflater().inflate(R.layout.popup_single_winner, null);
+        tv_victoria_pop = victoriaPopUpView.findViewById(R.id.textview_1_pop_sing);
+        btn_playAgain_pop = victoriaPopUpView.findViewById(R.id.button_play_pop_sing);
+        btn_exit_pop = victoriaPopUpView.findViewById(R.id.button_exit_pop_sing);
+
+        if (puntosJugador1 > puntosComputer) {
+            tv_victoria_pop.setText("YOU ARE THE WINNER!!!");
+        } else {
+            tv_victoria_pop.setText("YOU ARE A LOSER!!!");
+        }
+
+        dialogBuilder.setView(victoriaPopUpView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        btn_playAgain_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                resetearJuego();
+            }
+        });
+
+        btn_exit_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
