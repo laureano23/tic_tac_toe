@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tic_Tac_toe</string>
+    <string name="app_name">Tic Tac Toe</string>
 
     <string-array name="names">
         <item>DNI</item>

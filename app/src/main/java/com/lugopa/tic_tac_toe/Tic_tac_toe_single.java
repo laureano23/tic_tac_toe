@@ -5,6 +5,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
+import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.nfc.FormatException;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -100,8 +102,8 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish();
-                imprimirVectores();
+                finish();
+                //imprimirVectores();
             }
         });
 
@@ -1414,5 +1416,19 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
                 finish();
             }
         });
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                resetearJuego();
+            }
+        });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
 }
