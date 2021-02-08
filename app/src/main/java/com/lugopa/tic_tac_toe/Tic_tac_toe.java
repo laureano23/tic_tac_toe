@@ -1,34 +1,24 @@
 package com.lugopa.tic_tac_toe;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DownloadManager;
-import android.nfc.FormatException;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-
-import javax.security.auth.callback.Callback;
-
 public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListener {
 
     private Button[][] botones = new Button[3][3];
 
     private boolean turnoJugador1 = true;
+
+    private boolean flag = false;
 
     private int contadorDeRondas;
 
@@ -37,6 +27,10 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
 
     private TextView tv_jugador1;
     private TextView tv_jugador2;
+
+    private Button btn_reset;
+    private Button btn_finish;
+
 
     private ValidadorDeDatos validadorDeDatos = new ValidadorDeDatos();
 
@@ -65,7 +59,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
             }
         }
 
-        Button btn_reset = findViewById(R.id.button_reset);
+        btn_reset = findViewById(R.id.button_reset);
         btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +67,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        Button btn_finish = findViewById(R.id.button_finish);
+        btn_finish = findViewById(R.id.button_finish);
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,13 +95,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
 
         contadorDeRondas++;
 
-        if (hayGanador()) { // si hay un ganador
-            if (turnoJugador1) { // si es el jugador 1
-                ganador_jugador_1();
-            } else { // es el jugador 2
-                ganador_jugador_2();
-            }
-        } else if (contadorDeRondas == 9) { // si no hubo ganador, puede ser empate
+        if (!hayGanador() && contadorDeRondas == 9 ) { // si no hay un ganador, puede ser empate
             empate();
         } else { // si no fue empate, sigue el juego, turno del contrario
             turnoJugador1 = !turnoJugador1;
@@ -123,39 +111,57 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
                 campo[i][h] = botones[i][h].getText().toString();
             }
         }
-
+        //imprimirMatriz_consola(campo);
         // lineas horizontales
         for (int i = 0; i < 3; i++) {
             if (campo[i][0].equals(campo[i][1])
                     && campo[i][0].equals(campo[i][2])
                     && !campo[i][0].equals("")) {
+                colorearJugadaGanadora( i, 0, i, 1, i, 2);
                 return true;
             }
         }
-
         // lineas verticales
         for (int i = 0; i < 3; i++) {
             if (campo[0][i].equals(campo[1][i])
                     && campo[0][i].equals(campo[2][i])
                     && !campo[0][i].equals("")) {
+                colorearJugadaGanadora( 0, i, 1, i, 2, i);
                 return true;
             }
         }
-
         // diagonal izq --> der
         if (campo[0][0].equals(campo[1][1])
                 && campo[0][0].equals(campo[2][2])
                 && !campo[0][0].equals("")) {
+            colorearJugadaGanadora( 0, 0, 1, 1, 2, 2);
             return true;
         }
-
         // diagonal der --> izq
         if (campo[0][2].equals(campo[1][1])
                 && campo[0][2].equals(campo[2][0])
                 && !campo[0][2].equals("")) {
+            colorearJugadaGanadora( 0, 2, 1, 1, 2, 0);
             return true;
         }
+        System.out.println("========= NO HAY GANADOR, SE RETORNARA FALSO=================");
         return false;
+    }
+
+    private void imprimirMatriz_consola(String[][] matriz){
+        System.out.println("++++++++++++++++++++ IMPRIMIENDO MATRIZ ++++++++++++++++++++++++++++++++++++++++++\n");
+        for (int i = 0; i < 3; i++) {
+            for (int h = 0; h < 3; h++) {
+                System.out.print("\t");
+                if(matriz[i][h].equals("")){
+                    System.out.print("=");
+                }
+                else{
+                    System.out.print(matriz[i][h]);
+                }
+            }
+            System.out.print("\n");
+        }
     }
 
     private void ganador_jugador_1(){
@@ -177,6 +183,23 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         resetearTablero();
     }
 
+    private void colorearJugadaGanadora(int x1, int y1, int x2, int y2, int x3, int y3){
+        // formo la matriz de strings
+//        botones[x1][y1].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+//        botones[x2][y2].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+//        botones[x3][y3].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+        PintarJugadaTask pintor = new PintarJugadaTask(x1, y1, x2, y2, x3, y3);
+        pintor.execute();
+    }
+
+    private void resetearColorMatriz(){
+        for (int i = 0; i < 3; i++) {
+            for (int h = 0; h < 3; h++) {
+                botones[i][h].setBackgroundResource(R.drawable.buttons_tic_tac_toe);
+            }
+        }
+    }
+
     private void actualizarTextoPuntuacion(){
         tv_jugador1.setText("Player 1: " + puntosJugador1);
         tv_jugador2.setText("Player 2: " + puntosJugador2);
@@ -189,6 +212,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
             }
             contadorDeRondas = 0;
             turnoJugador1 = true;
+            resetearColorMatriz();
         }
     }
 
@@ -307,6 +331,67 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         });
     }*/
 
+   private void bloquearBotonesJuego(){
+       for (int i = 0; i < 3; i++) {
+           for (int h = 0; h < 3; h++) {
+               botones[i][h].setClickable(false);
+           }
+       }
+   }
+
+   private void desbloquearBotonesJuego(){
+       for (int i = 0; i < 3; i++) {
+           for (int h = 0; h < 3; h++) {
+               botones[i][h].setClickable(true);
+           }
+       }
+   }
+
+    class PintarJugadaTask extends AsyncTask<Void, Void, Void>{
+
+        public PintarJugadaTask(Integer... integers){
+            super();
+            int x1 = integers[0];
+            int y1 = integers[1];
+            int x2 = integers[2];
+            int y2 = integers[3];
+            int x3 = integers[4];
+            int y3 = integers[5];
+
+            botones[x1][y1].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+            botones[x2][y2].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+            botones[x3][y3].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+        }
+
+        @Override
+       protected void onPreExecute() {
+           btn_finish.setClickable(false);
+           btn_reset.setClickable(false);
+           bloquearBotonesJuego();
+       }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(2000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (turnoJugador1){
+                ganador_jugador_1();
+            }else{
+                ganador_jugador_2();
+            }
+            btn_finish.setClickable(true);
+            btn_reset.setClickable(true);
+            desbloquearBotonesJuego();
+        }
+    }
 
 
 }
