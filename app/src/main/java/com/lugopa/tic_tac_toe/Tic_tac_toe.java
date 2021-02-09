@@ -50,6 +50,9 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         tv_jugador1 = findViewById(R.id.textView_P1);
         tv_jugador2 = findViewById(R.id.textView_P2);
 
+        tv_jugador1.setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+
+
         for (int i = 0; i < 3; i++) {
             for (int h = 0; h < 3; h++) {
                 String buttonID = "button_" + i + h;
@@ -92,15 +95,27 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         } else {
             ((Button) v).setText("O");
         }
-
         contadorDeRondas++;
 
-        if (!hayGanador() && contadorDeRondas == 9 ) { // si no hay un ganador, puede ser empate
+        Boolean hayGanador = hayGanador();
+        if (!hayGanador && contadorDeRondas == 9 ) { // si no hay un ganador, puede ser empate
             empate();
-        } else { // si no fue empate, sigue el juego, turno del contrario
-            turnoJugador1 = !turnoJugador1;
+        } else if(!hayGanador){ // si no fue empate, sigue el juego, turno del contrario
+            cambiarTurno();
         }
 
+    }
+
+    private void cambiarTurno(){
+        if(turnoJugador1){
+            turnoJugador1 = false;
+            tv_jugador1.setBackground(null);
+            tv_jugador2.setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+        }else{
+            turnoJugador1 = true;
+            tv_jugador1.setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+            tv_jugador2.setBackground(null);
+        }
     }
 
     private boolean hayGanador() {
@@ -211,7 +226,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
                 botones[i][j].setText("");
             }
             contadorDeRondas = 0;
-            turnoJugador1 = true;
+            cambiarTurno();
             resetearColorMatriz();
         }
     }

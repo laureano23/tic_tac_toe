@@ -8,6 +8,7 @@ import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.nfc.FormatException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -42,6 +43,8 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
 
     private TextView tv_jugador1;
     private TextView tv_computer;
+
+    private Button btn_reset, btn_quit;
 
     private boolean banderaPrimerJugada=true;
     private boolean jugadaRealizada=false;
@@ -87,7 +90,7 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
             }
         }
 
-        Button btn_reset = findViewById(R.id.button_reset);
+        btn_reset = findViewById(R.id.button_reset);
         btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,11 +98,11 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
             }
         });
 
-        Button btn_finish = findViewById(R.id.button_finish);
+        btn_quit = findViewById(R.id.button_finish);
         //btn_finish.setVisibility(View.GONE);
-        btn_finish.setText("Quit");
+        btn_quit.setText("Quit");
 
-        btn_finish.setOnClickListener(new View.OnClickListener() {
+        btn_quit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -324,6 +327,7 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
             }
             contadorDeRondas = 0;
         }
+        resetearColorMatriz();
     }
 
     private void resetearJuego() {
@@ -366,40 +370,40 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
                 campo[i][h] = botones[i][h].getText().toString();
             }
         }
-
         // lineas horizontales
         for (int i = 0; i < 3; i++) {
             if (campo[i][0].equals(campo[i][1])
                     && campo[i][0].equals(campo[i][2])
                     && !campo[i][0].equals("")) {
                 simbolo_ganador=campo[i][0];
+                colorearJugadaGanadora( i, 0, i, 1, i, 2);
                 return true;
             }
         }
-
         // lineas verticales
         for (int i = 0; i < 3; i++) {
             if (campo[0][i].equals(campo[1][i])
                     && campo[0][i].equals(campo[2][i])
                     && !campo[0][i].equals("")) {
                 simbolo_ganador=campo[0][i];
+                colorearJugadaGanadora( 0, i, 1, i, 2, i);
                 return true;
             }
         }
-
         // diagonal izq --> der
         if (campo[0][0].equals(campo[1][1])
                 && campo[0][0].equals(campo[2][2])
                 && !campo[0][0].equals("")) {
             simbolo_ganador=campo[0][0];
+            colorearJugadaGanadora( 0, 0, 1, 1, 2, 2);
             return true;
         }
-
         // diagonal der --> izq
         if (campo[0][2].equals(campo[1][1])
                 && campo[0][2].equals(campo[2][0])
                 && !campo[0][2].equals("")) {
             simbolo_ganador=campo[0][2];
+            colorearJugadaGanadora( 0, 2, 1, 1, 2, 0);
             return true;
         }
         return false;
@@ -1429,6 +1433,96 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    //=======================================================================================================================================================
+    //============================ CODIGO AGREGADO (EN PRUEBA) ===============================================================================================
+    // ======================================================================================================================================================
+
+    private void colorearJugadaGanadora(int x1, int y1, int x2, int y2, int x3, int y3){
+        // formo la matriz de strings
+//        botones[x1][y1].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+//        botones[x2][y2].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+//        botones[x3][y3].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+        PintarJugadaTask_sing pintor = new PintarJugadaTask_sing(x1, y1, x2, y2, x3, y3);
+        pintor.execute();
+    }
+
+    class PintarJugadaTask_sing extends AsyncTask<Void, Void, Void> {
+
+        public PintarJugadaTask_sing(Integer... integers){
+            super();
+            int x1 = integers[0];
+            int y1 = integers[1];
+            int x2 = integers[2];
+            int y2 = integers[3];
+            int x3 = integers[4];
+            int y3 = integers[5];
+
+            botones[x1][y1].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+            botones[x2][y2].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+            botones[x3][y3].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            btn_quit.setClickable(false);
+            btn_reset.setClickable(false);
+            bloquearBotonesJuego();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(2000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if(simbolo_ganador.equals("X")){
+                ganador_you();
+            }
+            else{
+                ganador_computer();
+            }
+            if(puntosJugador1 == 3){
+                mostrarPopUpVictoria();
+            }else if(puntosComputer == 3){
+                mostrarPopUpVictoria();
+            }
+            btn_quit.setClickable(true);
+            btn_reset.setClickable(true);
+            desbloquearBotonesJuego();
+        }
+    }
+
+    private void bloquearBotonesJuego(){
+        for (int i = 0; i < 3; i++) {
+            for (int h = 0; h < 3; h++) {
+                botones[i][h].setClickable(false);
+            }
+        }
+    }
+
+    private void desbloquearBotonesJuego(){
+        for (int i = 0; i < 3; i++) {
+            for (int h = 0; h < 3; h++) {
+                botones[i][h].setClickable(true);
+            }
+        }
+    }
+
+    private void resetearColorMatriz(){
+        for (int i = 0; i < 3; i++) {
+            for (int h = 0; h < 3; h++) {
+                botones[i][h].setBackgroundResource(R.drawable.buttons_tic_tac_toe);
+            }
+        }
+    }
+
 
 
 }
