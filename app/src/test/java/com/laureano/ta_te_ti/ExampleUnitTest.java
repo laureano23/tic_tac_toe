@@ -1,4 +1,4 @@
-package com.lugopa.tic_tac_toe;
+package com.laureano.ta_te_ti;
 
 import org.junit.Test;
 

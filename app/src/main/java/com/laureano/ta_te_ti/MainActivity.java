@@ -1,4 +1,4 @@
-package com.lugopa.tic_tac_toe;
+package com.laureano.ta_te_ti;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             // abre activity del tic tac toe
-                Intent intent = new Intent(getApplicationContext(), Tic_tac_toe_single.class);
+                Intent intent = new Intent(getApplicationContext(), Tateti_Single.class);
                 //intent.putExtra( lo que queramos pasar) // para pasar cosas a la activity
                 startActivity(intent);
                 //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // abre activity del tic tac toe
-                Intent intent = new Intent(getApplicationContext(), Tic_tac_toe.class);
+                Intent intent = new Intent(getApplicationContext(), Tateti.class);
                 //intent.putExtra( lo que queramos pasar) // para pasar cosas a la activity
                 startActivity(intent);
                 //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

@@ -1,35 +1,20 @@
-package com.lugopa.tic_tac_toe;
+package com.laureano.ta_te_ti;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DownloadManager;
-import android.app.SearchManager;
 import android.content.DialogInterface;
-import android.nfc.FormatException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import javax.security.auth.callback.Callback;
-public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClickListener {
+public class Tateti_Single extends AppCompatActivity implements View.OnClickListener {
 
     private Button[][] botones = new Button[3][3];
 
@@ -50,9 +35,6 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
     private boolean jugadaRealizada=false;
     private int ultimaPosicionX = 99;
     private int ultimaPosicionY = 99;
-
-//    private int[] moverEnX = new int[8];
-//    private int[] moverEnY = new int[8];
 
     String[] primeraHorizontal = new String [6];
     String[] segundaHorizontal = new String [6];
@@ -78,8 +60,8 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
         tv_jugador1 = findViewById(R.id.textView_P1);
         tv_computer = findViewById(R.id.textView_P2);
 
-        tv_jugador1.setText("You: 0");
-        tv_computer.setText("Computer: 0");
+        tv_jugador1.setText("Jugador 1: 0");
+        tv_computer.setText("Computadora: 0");
 
         for (int i = 0; i < 3; i++) {
             for (int h = 0; h < 3; h++) {
@@ -99,14 +81,12 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
         });
 
         btn_quit = findViewById(R.id.button_finish);
-        //btn_finish.setVisibility(View.GONE);
-        btn_quit.setText("Quit");
+        btn_quit.setText("Salir");
 
         btn_quit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                //imprimirVectores();
             }
         });
 
@@ -316,8 +296,8 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
     }
 
     private void actualizarTextoPuntuacion(){
-        tv_jugador1.setText("Player 1: " + puntosJugador1);
-        tv_computer.setText("Computer: " + puntosComputer);
+        tv_jugador1.setText("Jugador 1: " + puntosJugador1);
+        tv_computer.setText("Computadora: " + puntosComputer);
     }
 
     private void resetearTablero() {
@@ -350,7 +330,7 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
 
     private void ganador_computer(){
         puntosComputer++;
-        Toast.makeText(this, "Computer Wins!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ganó la computadora!", Toast.LENGTH_SHORT).show();
         actualizarTextoPuntuacion();
         resetearTablero();
         banderaPrimerJugada = true;
@@ -358,7 +338,7 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
     }
 
     private void empate(){
-        Toast.makeText(this, "It is a Tie!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Es un empate!", Toast.LENGTH_SHORT).show();
         resetearTablero();
     }
 
@@ -451,9 +431,6 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
             return;
         }
 
-        /*ultimaPosicionX=0;
-        ultimaPosicionY=0;
-        botones[0][0].setText("O");*/
 
         ((Button) v).setText("X");
 
@@ -509,7 +486,6 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
         boolean control = true; //Si entra a false no ingresa en otro if
 
         if((control) && primeraHorizontal[4].equals(String.valueOf(2))){
-            System.out.println("*****************************************************************Entro");
             for(int i=0;i<3; i++){
                 if(primeraHorizontal[i].equals("")){
                     botones[0][i].setText("O");
@@ -593,12 +569,6 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
 
     }
 
-//    private void blanqueoMovimientos(){
-//        for (int i=0;i<8;i++){
-//            moverEnX[i]=0;
-//            moverEnY[i]=0;
-//        }
-//    }
 
     private void playerIsAboutToWin(){
         //Tengo que fijarme si hay 2 fichas iguales del jugador en la línea y colocar la de la PC en la faltante
@@ -1482,7 +1452,7 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(simbolo_ganador.equals("X")){
+            /*if(simbolo_ganador.equals("X")){
                 ganador_you();
             }
             else{
@@ -1492,7 +1462,7 @@ public class Tic_tac_toe_single extends AppCompatActivity implements View.OnClic
                 mostrarPopUpVictoria();
             }else if(puntosComputer == 3){
                 mostrarPopUpVictoria();
-            }
+            }*/
             btn_quit.setClickable(true);
             btn_reset.setClickable(true);
             desbloquearBotonesJuego();

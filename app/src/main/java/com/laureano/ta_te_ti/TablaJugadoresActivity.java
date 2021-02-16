@@ -1,4 +1,4 @@
-package com.lugopa.tic_tac_toe;
+package com.laureano.ta_te_ti;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -83,13 +83,15 @@ public class TablaJugadoresActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ValidadorDeDatos validadorDeDatos = new ValidadorDeDatos();
-                int dni =0 ;
+                String dni ="0" ;
                 if(et_search.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Insert a dni number!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "DNI a buscar...", Toast.LENGTH_SHORT).show();
+                    Query query = dbJugadores.orderByChild("dni");
+                    query.addListenerForSingleValueEvent(valueEventListener);
                 } else {
-                    dni = Integer.parseInt(et_search.getText().toString());
+                    dni = et_search.getText().toString();
                     if (!validadorDeDatos.validar_dni(dni)) {
-                        Toast.makeText(getApplicationContext(), "Invalid DNI, Try again!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "DNI inválido, intente nuevamnete!", Toast.LENGTH_SHORT).show();
                     } else {
                         Query query =dbJugadores.orderByChild("dni").equalTo(dni);
                         query.addListenerForSingleValueEvent(valueEventListener);

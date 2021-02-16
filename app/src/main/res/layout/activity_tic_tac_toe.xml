@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Tic_tac_toe"
-    android:weightSum="100"
+    android:backgroundTint="#070707"
     android:orientation="vertical"
-    android:background="@drawable/fondo_colores">
+    android:weightSum="100"
+    tools:context=".Tateti">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,9 +25,9 @@
             android:fontFamily="@font/bangers"
             android:freezesText="true"
             android:gravity="center"
-            android:text="Player 1: 0"
+            android:text="Jugador 1: 0"
             android:textAlignment="center"
-            android:textColor="#D4000000"
+            android:textColor="#FF9800"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -40,9 +40,9 @@
             android:fontFamily="@font/bangers"
             android:freezesText="true"
             android:gravity="center"
-            android:text="Player 2: 0"
+            android:text="Jugador 2: 0"
             android:textAlignment="center"
-            android:textColor="#D4000000"
+            android:textColor="#FF9800"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -191,14 +191,13 @@
         </LinearLayout>
 
 
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:layout_weight="45"
+        android:orientation="horizontal"
         android:weightSum="100">
 
         <Button
@@ -229,9 +228,6 @@
 
 
     </LinearLayout>
-
-
-
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

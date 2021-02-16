@@ -1,7 +1,7 @@
-package com.lugopa.tic_tac_toe;
+package com.laureano.ta_te_ti;
 
 public class Jugador {
-    private int dni;
+    private String dni;
     private String nombre;
     private int victorias;
     private String key;
@@ -10,18 +10,18 @@ public class Jugador {
 
     }
 
-    public Jugador(int dni, String nombre, int victorias, String key) {
+    public Jugador(String dni, String nombre, int victorias, String key) {
         this.dni = dni;
         this.nombre = nombre;
         this.victorias = victorias;
         this.key = key;
     }
 
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 

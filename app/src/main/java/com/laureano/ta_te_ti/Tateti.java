@@ -1,18 +1,17 @@
-package com.lugopa.tic_tac_toe;
+package com.laureano.ta_te_ti;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListener {
+public class Tateti extends AppCompatActivity implements View.OnClickListener {
 
     private Button[][] botones = new Button[3][3];
 
@@ -181,28 +180,24 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
 
     private void ganador_jugador_1(){
         puntosJugador1++;
-        Toast.makeText(this, "Player 1 wins!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ganó el Jugador 1!", Toast.LENGTH_SHORT).show();
         actualizarTextoPuntuacion();
         resetearTablero();
     }
 
     private void ganador_jugador_2(){
         puntosJugador2++;
-        Toast.makeText(this, "Player 2 wins!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ganó el Jugador 2!", Toast.LENGTH_SHORT).show();
         actualizarTextoPuntuacion();
         resetearTablero();
     }
 
     private void empate(){
-        Toast.makeText(this, "It is a Tie!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "TATETI!", Toast.LENGTH_SHORT).show();
         resetearTablero();
     }
 
     private void colorearJugadaGanadora(int x1, int y1, int x2, int y2, int x3, int y3){
-        // formo la matriz de strings
-//        botones[x1][y1].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
-//        botones[x2][y2].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
-//        botones[x3][y3].setBackgroundResource(R.drawable.buttons_tic_tac_toe_green);
         PintarJugadaTask pintor = new PintarJugadaTask(x1, y1, x2, y2, x3, y3);
         pintor.execute();
     }
@@ -271,9 +266,9 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         btn_exit_pop= victoriaPopUpView.findViewById(R.id.button_exit_pop);
 
         if(puntosJugador1 > puntosJugador2){
-            tv_tituloVictoria_pop.setText("THE WINNER IS... PLAYER 1 !!!");
+            tv_tituloVictoria_pop.setText("EL GANADOR ES EL JUGADOR 1!");
         } else {
-            tv_tituloVictoria_pop.setText("THE WINNER IS... PLAYER 2 !!!");
+            tv_tituloVictoria_pop.setText("EL GANADOR ES EL JUGADOR 2!");
         }
 
         dialogBuilder.setView(victoriaPopUpView);
@@ -286,7 +281,7 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
                 if(et_nombre_pop.getText().toString().isEmpty() || et_dni_pop.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(),"incomplete entered data!", Toast.LENGTH_SHORT).show();
                 } else {
-                    int dni = Integer.parseInt(et_dni_pop.getText().toString());
+                    String dni = et_dni_pop.getText().toString();
                     if (!validadorDeDatos.validar_dni(dni)) {
                         Toast.makeText(getApplicationContext(), "Invalid DNI, Try again!", Toast.LENGTH_SHORT).show();
                     }else {
@@ -325,26 +320,6 @@ public class Tic_tac_toe extends AppCompatActivity implements View.OnClickListen
         finish();
         //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
-
-   /* private void agregar_jugador_BD(Jugador player){
-        DatabaseManager mDatabase = new DatabaseManager();
-        mDatabase.checkUserExist(player.getDni(), new BasicE)
-        Query queryUserByDni = FirebaseDatabase.getInstance().getReference("Jugadores")
-                .orderByChild("dni").equalTo(player.getDni()).limitToFirst(1);
-        queryUserByDni.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    // ver ultimo video para rreutilizar BD
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
 
    private void bloquearBotonesJuego(){
        for (int i = 0; i < 3; i++) {

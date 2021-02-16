@@ -1,9 +1,6 @@
-package com.lugopa.tic_tac_toe;
+package com.laureano.ta_te_ti;
 
-import android.content.Intent;
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,9 +10,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -28,7 +22,7 @@ public class DatabaseManager {
     }
 
 
-    public void guardarJugador_BD(final int dni, final String nom, final int cant ){
+    public void guardarJugador_BD(final String dni, final String nom, final int cant ){
         final DatabaseReference dbJugadores = FirebaseDatabase.getInstance().getReference("Jugadores");
         Query query =dbJugadores.orderByChild("dni").equalTo(dni);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
